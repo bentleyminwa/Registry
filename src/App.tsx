@@ -2,7 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Details from "./pages/Details";
 import Home from "./pages/Home";
 import Root from "./pages/Root";
-import Search from "./pages/Search";
+import { SearchLoader } from "./pages/Search/SearchLoader";
+import Search from "./pages/Search/SearchPage";
 
 const router = createBrowserRouter([
   {
@@ -16,21 +17,7 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
-        loader: async ({ request }) => {
-          const { searchParams } = new URL(request.url);
-          const term = searchParams.get("term");
-
-          if (!term) {
-            throw new Error("Missing search term");
-          }
-
-          const res = await fetch(
-            `https://registry.npmjs.com/-/v1/search?text=${term}`
-          );
-          const data = await res.json();
-
-          return data.objects;
-        },
+        loader: SearchLoader,
       },
       {
         path: "/details/:name",
