@@ -8,7 +8,7 @@ const SearchInput = () => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    navigate(`/search?q=${term}`);
+    navigate(`/search?term=${term}`);
   }
 
   return (

@@ -16,6 +16,21 @@ const router = createBrowserRouter([
       {
         path: "/search",
         element: <Search />,
+        loader: async ({ request }) => {
+          const { searchParams } = new URL(request.url);
+          const term = searchParams.get("term");
+
+          if (!term) {
+            throw new Error("Missing search term");
+          }
+
+          const res = await fetch(
+            `https://registry.npmjs.com/-/v1/search?text=${term}`
+          );
+          const data = await res.json();
+
+          return data.objects;
+        },
       },
       {
         path: "/details/:name",
